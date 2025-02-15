@@ -7,6 +7,7 @@ export const writeData = async (req, res) => {
   try {
     const PUBLISHER = process.env.PUBLISHER;
     console.log("Starting to read file...");
+    const ADDRESS = process.env.ADDRESS;
 
     const jsonData = await fs.readFile("/home/ashwin/large_file.json", "utf8");
     const fileSizeKB = Buffer.byteLength(jsonData, "utf8") / 1024;
@@ -15,13 +16,17 @@ export const writeData = async (req, res) => {
     console.log("Publisher URL:", PUBLISHER);
 
     console.log("Sending request to Walrus...");
-    const response = await axios.put(`${PUBLISHER}/v1/blobs`, jsonData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      maxContentLength: Infinity, //  to handle large files
-      maxBodyLength: Infinity, // to handle large files
-    });
+    const response = await axios.put(
+      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}`,
+      jsonData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        maxContentLength: Infinity, //  to handle large files
+        maxBodyLength: Infinity, // to handle large files
+      }
+    );
 
     const endTime = Date.now();
     const duration = (endTime - startTime) / 1000;
