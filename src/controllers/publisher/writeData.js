@@ -66,10 +66,11 @@ export const writeDataString = async (req, res) => {
   try {
     const PUBLISHER = process.env.PUBLISHER;
     const ADDRESS = process.env.ADDRESS;
-    const data = "testData";
+    const data = "testingData";
+    const epochs = 1;
 
     const response = await axios.put(
-      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}`,
+      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}&epochs=${epochs}`,
       data,
       {
         headers: {
