@@ -8,6 +8,7 @@ export const writeDataFile = async (req, res) => {
     const PUBLISHER = process.env.PUBLISHER;
     console.log("Starting to read file...");
     const ADDRESS = process.env.ADDRESS;
+    const epochs = 30;
 
     const jsonData = await fs.readFile("/home/ashwin/large_file.json", "utf8");
     const fileSizeKB = Buffer.byteLength(jsonData, "utf8") / 1024;
@@ -17,7 +18,7 @@ export const writeDataFile = async (req, res) => {
 
     console.log("Sending request to Walrus...");
     const response = await axios.put(
-      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}`,
+      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}&epochs=${epochs}`,
       jsonData,
       {
         headers: {
