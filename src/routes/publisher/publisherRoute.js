@@ -1,8 +1,12 @@
 import express from "express";
-import { writeData } from "../../controllers/publisher/writeData.js";
+import {
+  writeDataFile,
+  writeDataString,
+} from "../../controllers/publisher/writeData.js";
 
 const router = express.Router();
 
-router.put("/", writeData);
+router.put("/file", writeDataFile);
+router.put("/string", writeDataString);
 
 export default router;

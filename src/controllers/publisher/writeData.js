@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import axios from "axios";
 
-export const writeData = async (req, res) => {
+export const writeDataFile = async (req, res) => {
   const startTime = Date.now();
 
   try {
@@ -58,6 +58,32 @@ export const writeData = async (req, res) => {
         durationInSeconds: duration,
         timestamp: new Date().toISOString(),
       },
+    });
+  }
+};
+
+export const writeDataString = async (req, res) => {
+  try {
+    const PUBLISHER = process.env.PUBLISHER;
+    const ADDRESS = process.env.ADDRESS;
+    const data = "testData";
+
+    const response = await axios.put(
+      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error("Error writing data:", error);
+    res.status(500).json({
+      error: "Failed to write data to Walrus",
+      details: error.message,
     });
   }
 };
