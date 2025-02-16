@@ -8,7 +8,7 @@ export const writeDataFile = async (req, res) => {
     const PUBLISHER = process.env.PUBLISHER;
     console.log("Starting to read file...");
     const ADDRESS = process.env.ADDRESS;
-    const epochs = 30;
+    const epochs = 60;
 
     const jsonData = await fs.readFile("/home/ashwin/large_file.json", "utf8");
     const fileSizeKB = Buffer.byteLength(jsonData, "utf8") / 1024;
