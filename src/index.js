@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import publisherRoute from "./routes/publisher/publisherRoute.js";
+import aggregatorRoute from "./routes/aggregator/aggregatorRoute.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/publisher", publisherRoute);
+app.use("/api/aggregator", aggregatorRoute);
 
 app.get("/", (req, res) => {
   res.json({ message: "server running" });
