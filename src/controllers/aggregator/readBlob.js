@@ -15,17 +15,25 @@ export const readBlob = async (req, res) => {
 
   try {
     const AGGREGATOR = process.env.AGGREGATOR;
+    const baseUrl = AGGREGATOR.startsWith("http")
+      ? AGGREGATOR
+      : `http://${AGGREGATOR}`;
+
     if (!AGGREGATOR) {
       throw new Error("AGGREGATOR environment variable is not configured");
     }
 
     const { blobID } = req.body;
+    console.log(blobID, "blobId being passed");
 
     if (typeof blobID !== "string" || !blobID.trim()) {
       throw new Error("Invalid blobID format");
     }
 
-    const response = await axios.get(`${AGGREGATOR}/v1/blobs/${blobID}`);
+    console.log(AGGREGATOR, "aggregator");
+
+    const response = await axios.get(`${baseUrl}/v1/blobs/${blobID}`);
+    console.log(response);
 
     const duration = (Date.now() - startTime) / 1000;
 
