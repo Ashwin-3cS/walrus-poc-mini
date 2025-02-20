@@ -8,7 +8,7 @@ export const writeDataFile = async (req, res) => {
     const PUBLISHER = process.env.PUBLISHER;
     console.log("Starting to read file...");
     const ADDRESS = process.env.ADDRESS;
-    const epochs = 90;
+    const epochs = 1;
 
     const jsonData = await fs.readFile("/home/ashwin/large_file.json", "utf8");
     const fileSizeKB = Buffer.byteLength(jsonData, "utf8") / 1024;
@@ -17,8 +17,24 @@ export const writeDataFile = async (req, res) => {
     console.log("Publisher URL:", PUBLISHER);
 
     console.log("Sending request to Walrus...");
+    // const response = await axios.put(
+    //   `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}&epochs=${epochs}`,
+    //   jsonData,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     maxContentLength: Infinity, //  to handle large files
+    //     maxBodyLength: Infinity, // to handle large files
+    //   }
+    // );
+
+    const baseUrl = PUBLISHER.startsWith("http")
+      ? PUBLISHER
+      : `http://${PUBLISHER}`;
+
     const response = await axios.put(
-      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}&epochs=${epochs}`,
+      `${baseUrl}/v1/blobs?&epochs=${epochs}`,
       jsonData,
       {
         headers: {
@@ -67,11 +83,25 @@ export const writeDataString = async (req, res) => {
   try {
     const PUBLISHER = process.env.PUBLISHER;
     const ADDRESS = process.env.ADDRESS;
-    const data = "testingData";
+    const data = "testingggData";
     const epochs = 1;
 
+    const baseUrl = PUBLISHER.startsWith("http")
+      ? PUBLISHER
+      : `http://${PUBLISHER}`;
+
+    // const response = await axios.put(
+    //   `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}&epochs=${epochs}`,
+    //   data,
+    //   {
+    //     headers: {
+    //       "Content-Type": "text/plain",
+    //     },
+    //   }
+    // );
+
     const response = await axios.put(
-      `${PUBLISHER}/v1/blobs?send_object_to=${ADDRESS}&epochs=${epochs}`,
+      `${baseUrl}/v1/blobs?&epochs=${epochs}`,
       data,
       {
         headers: {

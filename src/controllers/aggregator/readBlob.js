@@ -15,13 +15,13 @@ export const readBlob = async (req, res) => {
 
   try {
     const AGGREGATOR = process.env.AGGREGATOR;
-    const baseUrl = AGGREGATOR.startsWith("http")
-      ? AGGREGATOR
-      : `http://${AGGREGATOR}`;
 
     if (!AGGREGATOR) {
       throw new Error("AGGREGATOR environment variable is not configured");
     }
+    const baseUrl = AGGREGATOR.startsWith("http")
+      ? AGGREGATOR
+      : `http://${AGGREGATOR}`;
 
     const { blobID } = req.body;
     console.log(blobID, "blobId being passed");
