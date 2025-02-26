@@ -31,6 +31,7 @@ export const readBlob = async (req, res) => {
     }
 
     console.log(AGGREGATOR, "aggregator");
+    console.log(`${baseUrl}/v1/blobs/${blobID}`);
 
     const response = await axios.get(`${baseUrl}/v1/blobs/${blobID}`);
     console.log(response);

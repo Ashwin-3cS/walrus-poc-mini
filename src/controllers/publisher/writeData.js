@@ -8,9 +8,12 @@ export const writeDataFile = async (req, res) => {
     const PUBLISHER = process.env.PUBLISHER;
     console.log("Starting to read file...");
     const ADDRESS = process.env.ADDRESS;
-    const epochs = 1;
+    const epochs = 90;
 
-    const jsonData = await fs.readFile("/home/ashwin/large_file.json", "utf8");
+    const jsonData = await fs.readFile(
+      "/home/ashwin/large_file_50MB.json",
+      "utf8"
+    );
     const fileSizeKB = Buffer.byteLength(jsonData, "utf8") / 1024;
 
     console.log(`Successfully read file. Size: ${fileSizeKB.toFixed(2)} KB`);
@@ -34,7 +37,7 @@ export const writeDataFile = async (req, res) => {
       : `http://${PUBLISHER}`;
 
     const response = await axios.put(
-      `${baseUrl}/v1/blobs?&epochs=${epochs}`,
+      `${baseUrl}/v1/blobs?&epochs=${epochs}&deletable=true`,
       jsonData,
       {
         headers: {
@@ -84,7 +87,7 @@ export const writeDataString = async (req, res) => {
     const PUBLISHER = process.env.PUBLISHER;
     const ADDRESS = process.env.ADDRESS;
     const data = "testingggData";
-    const epochs = 1;
+    const epochs = 90;
 
     const baseUrl = PUBLISHER.startsWith("http")
       ? PUBLISHER
